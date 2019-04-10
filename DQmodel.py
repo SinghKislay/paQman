@@ -16,11 +16,12 @@ class DQNetwork(Model):
     self.Dence3 = tf.keras.layers.Dense(units = 9)
     self.mse = tf.keras.losses.MeanSquaredError()
     
-
+  
   def call(self, frame_stack):
     frame_stack = self.Conv1(frame_stack)
     frame_stack = self.BatchNorm(frame_stack)
     frame_stack = self.Conv2(frame_stack)
+    frame_stack = self.BatchNorm(frame_stack)
     frame_stack = self.Conv3(frame_stack)
     frame_stack = self.Flatten(frame_stack)
     frame_stack = self.Dence1(frame_stack)
@@ -30,13 +31,14 @@ class DQNetwork(Model):
     output = self.Dence3(frame_stack)
     return output
   
+
   def get_action(self, curr_stack):
     curr_stack = tf.cast(curr_stack, dtype = tf.float32)
     q = self(curr_stack)
     next_action = tf.one_hot(tf.math.argmax(q, axis = 1), depth = 9, axis=-1)
     return next_action
 
-  #@tf.function
+  
   def minimize_loss(self, curr_stack, curr_action, next_stack, reward):
     curr_stack = tf.cast(curr_stack, dtype = tf.float32)
     curr_action = tf.cast(curr_action , dtype = tf.float32)
@@ -55,7 +57,6 @@ class DQNetwork(Model):
     optimizer = tf.keras.optimizers.Adam()
     gradients = tape.gradient(loss, self.trainable_variables)
     optimizer.apply_gradients(zip(gradients, self.trainable_variables))
-
     return loss
   
   

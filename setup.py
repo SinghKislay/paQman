@@ -2,14 +2,15 @@ import gym
 import numpy as np
 import time
 import cv2
+from utils import rgb2gray
+
 env = gym.make('MsPacman-v0')
 ob=env.reset()
 print(ob.shape)
 
-def rgb2gray(rgb):
-    return np.array(cv2.cvtColor(rgb, cv2.COLOR_BGR2GRAY)).reshape(210,160)[:172][:]
 ob = rgb2gray(ob)
-print(ob.shape)
+
+print(ob)
 cv2.imshow('img',ob)
 cv2.waitKey()
 for _ in range(4):

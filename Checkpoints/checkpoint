@@ -1,0 +1,2 @@
+model_checkpoint_path: "DQNetwork-Epoch20"
+all_model_checkpoint_paths: "DQNetwork-Epoch20"

@@ -16,14 +16,18 @@ class Memory():
 
   def add(self, curr_frame, action, next_frame, reward):
     self.stack_frame(curr_frame, action, next_frame, reward)
+    if reward > 10.0:
+      for _ in range(999):
+        self.memory.append((self.curr_state_stack.array, self.action.array, self.next_state_stack.array, self.reward.array))
     self.memory.append((self.curr_state_stack.array, self.action.array, self.next_state_stack.array, self.reward.array))
+
 
   def stack_frame(self, curr_frame, action, next_frame, reward):
     self.curr_state_stack.append(curr_frame)
     self.action.append(action)
     self.next_state_stack.append(next_frame)
     self.reward.append(reward)
-      
+
 
   def samples(self):
     memo_len = self.memory._len()
@@ -37,10 +41,9 @@ class Memory():
       env.render()
       action = np.random.choice([1,0,0,0,0,0,0,0,0],9,replace=False) # take a random action
       action_int = int(np.argmax(action))
-      next_frame, reward, done, reward = env.step(action_int)
-      reward = list(reward.values())[0]
+      next_frame, reward, done, info = env.step(action_int)
       if reward == 0.0:
-        reward = -1.0
+        reward = -0.1
       if done:
         reward = -100.0
       self.add(rgb2gray(curr_frame), action, rgb2gray(next_frame), reward)
