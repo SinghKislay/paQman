@@ -9,10 +9,10 @@ import tensorflow as tf
 l=0
 dqn = DQNetwork()
 dqn.load_weights('./Checkpoints/DQNetwork-Epoch20')
-memo = Memory(4, 10000, 64)
+memo = Memory(4, 1000000, 32)
 env = gym.make('MsPacman-v0')
 
-memo.random_memory_filler(env, 10000)
+memo.random_memory_filler(env, 32)
 curr_frames = np.random.rand(1, 84, 84, 4)
 writer = tf.summary.create_file_writer('./Performance_summary')
 env.reset()

@@ -49,5 +49,6 @@ class Memory():
       self.add(rgb2gray(curr_frame), action, rgb2gray(next_frame), reward)
       if done:
         env.reset()
+      curr_frame = next_frame
       #print('k')
   
